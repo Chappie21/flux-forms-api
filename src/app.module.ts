@@ -1,8 +1,10 @@
 import { Module } from '@nestjs/common';
 import { CommonModule } from './common/common.module';
-import { PrismaService } from './prisma.service';
 import { ConfigModule } from '@nestjs/config';
 import { configLoader, schemaConfig } from './common/config'
+import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
+import { PrismaModule } from './prisma/prisma.module';
 
 @Module({
   imports: [
@@ -10,8 +12,9 @@ import { configLoader, schemaConfig } from './common/config'
     ConfigModule.forRoot({
       load: [configLoader],
       validationSchema: schemaConfig
-    })
-  ],
-  providers: [PrismaService],
+    }),
+    UserModule,
+    AuthModule,
+  ]
 })
 export class AppModule {}

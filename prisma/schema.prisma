@@ -13,3 +13,16 @@ datasource db {
   provider = "sqlite"
   url      = env("DATABASE_URL")
 }
+
+model User {
+  id        String   @id @default(uuid())
+  firstName String
+  lastName  String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  deletedAt DateTime?
+  deleted   Boolean  @default(false)
+  region    String
+}
