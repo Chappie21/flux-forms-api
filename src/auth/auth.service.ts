@@ -3,6 +3,8 @@ import { UserService } from '../user/user.service';
 import { LoginDto } from './dto';
 import { compareSync } from 'bcryptjs';
 import { JwtService } from '@nestjs/jwt';
+import { CreateUserDto } from 'src/user/dto';
+import { User } from '@prisma/client';
 
 @Injectable()
 export class AuthService {
@@ -34,5 +36,17 @@ export class AuthService {
       },
       token,
     };
+  }
+
+  async validateGoogleUser(googleUser: CreateUserDto): Promise<User> {
+    const user = await this.userService.findUserByEmail(googleUser.email);
+    if (user) return user;
+
+    const newUser = await this.userService.createUser({
+      ...googleUser,
+      password: '',
+    });
+
+    return newUser;
   }
 }

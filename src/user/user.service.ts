@@ -13,7 +13,7 @@ export class UserService {
 
   async createUser(newUser: CreateUserDto): Promise<User> {
     try {
-      const { firstName, lastName, email, password, region } = newUser;
+      const { firstName, lastName, email, password, region = '' } = newUser;
       const hashedPassword = hashSync(password, 10);
 
       const user: User = await this.prisma.user.create({
@@ -28,6 +28,7 @@ export class UserService {
 
       return user;
     } catch (error) {
+      console.error('Error creating user:', error);
       if (error.code === 'P2002') {
         throw new BadRequestException('This email is in use, please use another one.');
       }
