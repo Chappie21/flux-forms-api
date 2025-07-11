@@ -3,6 +3,7 @@ import { AuthService } from './auth.service';
 import { LoginDto } from './dto';
 import { GoogleAuthGuard } from './guards/google-auth.guard';
 import { User } from '@prisma/client';
+import { CreateUserDto } from '../user/dto';
 
 @Controller('auth')
 export class AuthController {
@@ -12,6 +13,12 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   async signIn(@Body() siginData: LoginDto) {
     return this.authService.authenticateUser(siginData);
+  }
+
+  @Post('register')
+  @HttpCode(HttpStatus.CREATED)
+  async register(@Body() createUserDto: CreateUserDto) {
+    return this.authService.registerUser(createUserDto);
   }
 
   @UseGuards(GoogleAuthGuard)

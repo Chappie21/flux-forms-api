@@ -13,25 +13,26 @@ export class UserService {
 
   async createUser(newUser: CreateUserDto): Promise<User> {
     try {
-      const { firstName, lastName, email, password, region = '' } = newUser;
+      const { firstName, lastName, email, password, region = '', registeredFromGoogle } = newUser;
       const hashedPassword = hashSync(password, 10);
 
       const user: User = await this.prisma.user.create({
         data: {
-          firstName,
-          lastName,
-          email,
+          firstName: firstName.trim().toLocaleLowerCase(),
+          lastName: lastName.trim().toLocaleLowerCase(),
+          email: email.trim().toLocaleLowerCase(),
           password: hashedPassword,
           region,
+          registeredFromGoogle: registeredFromGoogle
         },
       });
 
       return user;
     } catch (error) {
-      console.error('Error creating user:', error);
       if (error.code === 'P2002') {
         throw new BadRequestException('This email is in use, please use another one.');
       }
+      console.error('Error creating user:', error);
       throw new InternalServerErrorException('An error occurred while creating the user - Check logs.')
     }
 

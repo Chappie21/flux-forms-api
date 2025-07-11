@@ -27,13 +27,21 @@ export class AuthService {
     });
 
     return {
-      user: {
-        id: user.id,
-        firstName: user.firstName,
-        lastName: user.lastName,
-        email: user.email,
-        region: user.region,
-      },
+      user: this.formattedUserDataResponse(user),
+      token,
+    };
+  }
+
+  async registerUser(createUserDto: CreateUserDto) {
+    const newUser = await this.userService.createUser(createUserDto);
+
+    const token = this.jwtService.sign({
+      id: newUser.id,
+      email: newUser.email,
+    });
+
+    return {
+      user: this.formattedUserDataResponse(newUser),
       token,
     };
   }
@@ -48,5 +56,15 @@ export class AuthService {
     });
 
     return newUser;
+  }
+
+  private formattedUserDataResponse(user: User) {
+    return {
+      id: user.id,
+      firstName: user.firstName,
+      lastName: user.lastName,
+      email: user.email,
+      region: user.region,
+    };
   }
 }

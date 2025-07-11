@@ -31,6 +31,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy)  {
             firstName,
             lastName,
             password: '',
+            registeredFromGoogle: true,
         } as CreateUserDto);
 
         done(null, user);
