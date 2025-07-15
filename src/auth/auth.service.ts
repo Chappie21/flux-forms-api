@@ -103,8 +103,6 @@ export class AuthService {
       where: { token: oldRefreshToken, isRevoked: false, userId: user.id }
     });
 
-    console.log('Stored Old Refresh Token ID:', storedOldRefreshToken?.id, 'Masked Token:', storedOldRefreshToken?.token?.slice(0, 5) + '...');
-
     if (!storedOldRefreshToken || storedOldRefreshToken.expiredAt < new Date()) throw new BadRequestException('Invalid or expired refresh token.');
 
     await this.prisma.refreshToken.update({
