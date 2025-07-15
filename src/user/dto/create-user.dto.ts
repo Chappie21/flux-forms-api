@@ -1,4 +1,4 @@
-import { IsEmail, IsString, MaxLength, MinLength } from 'class-validator';
+import { IsBoolean, IsEmail, IsOptional, IsString, MaxLength, MinLength } from 'class-validator';
 
 export class CreateUserDto {
     @IsString()
@@ -20,5 +20,10 @@ export class CreateUserDto {
     password: string;
 
     @IsString()
-    region: string;
+    @IsOptional()
+    region?: string;
+
+    @IsBoolean()
+    @IsOptional()
+    registeredFromGoogle?: boolean = false;
 }
