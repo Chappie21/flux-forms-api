@@ -4,10 +4,11 @@ import { AuthController } from './auth.controller';
 import { UserModule } from '../user/user.module';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
-import { JwtStrategy, GoogleStrategy } from './strategies';
+import { JwtStrategy, GoogleStrategy, JwtRefreshStrategy } from './strategies';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { PrismaModule } from 'src/prisma/prisma.module';
 import { GoogleAuthGuard } from './guards/google-auth.guard';
+import { JwtRefreshGuard } from './guards';
 
 @Module({
   imports: [
@@ -28,13 +29,16 @@ import { GoogleAuthGuard } from './guards/google-auth.guard';
   providers: [
     AuthService,
     JwtStrategy,
+    JwtRefreshStrategy,
+    JwtRefreshGuard,
     GoogleStrategy,
-    GoogleAuthGuard
+    GoogleAuthGuard,
   ],
   exports: [
     PassportModule,
     JwtModule,
     JwtStrategy,
+    JwtRefreshStrategy,
     GoogleStrategy,
   ]
 })
