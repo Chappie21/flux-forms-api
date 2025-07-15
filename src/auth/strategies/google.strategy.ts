@@ -11,7 +11,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy)  {
 
     constructor(
         configService: ConfigService,
-        private readonly AuthService: AuthService
+        private readonly authService: AuthService
     ) {
         super({
             clientID: configService.getOrThrow<string>('GOOGLE_CLIENT_ID'),
@@ -26,7 +26,7 @@ export class GoogleStrategy extends PassportStrategy(Strategy)  {
         const firstName = profile.name.givenName;
         const lastName = profile.name.familyName;
 
-        const user = await this.AuthService.validateGoogleUser({
+        const user = await this.authService.validateGoogleUser({
             email,
             firstName,
             lastName,
