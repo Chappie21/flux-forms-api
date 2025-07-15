@@ -18,8 +18,8 @@ export class UserService {
 
       const user: User = await this.prisma.user.create({
         data: {
-          firstName: firstName.trim().toLocaleLowerCase(),
-          lastName: lastName.trim().toLocaleLowerCase(),
+          firstName: firstName.trim(),
+          lastName: lastName.trim(),
           email: email.trim().toLocaleLowerCase(),
           password: hashedPassword,
           region,
